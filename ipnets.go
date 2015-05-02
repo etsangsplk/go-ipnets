@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-// A slice of net.IPNet
+// IPNet is a slice of net.IPNet
 type IPNets []net.IPNet
 
 // String returns a string with comma-delimited CIDR representations of
@@ -26,6 +26,8 @@ func (nets *IPNets) String() string {
 // Set parses supplied comma-delimited list of IPv4 or IPv6 IPs and CIDR networks into IPNets.
 // Together with String implements flag.Value interface so it's possible to parse command-line parameters directly into *IPnets
 func (nets *IPNets) Set(param string) error {
+	var ipnet *net.IPNet
+	var err error
 	for _, s := range strings.Split(param, ",") {
 		s = strings.TrimSpace(s)
 		// no "/" symbol in the address, not CIDR
@@ -36,11 +38,10 @@ func (nets *IPNets) Set(param string) error {
 				s = s + "/128"
 			}
 		}
-		if _, net, err := net.ParseCIDR(s); err != nil {
+		if _, ipnet, err = net.ParseCIDR(s); err != nil {
 			return err
-		} else {
-			*nets = append(*nets, *net)
 		}
+		*nets = append(*nets, *ipnet)
 	}
 	return nil
 }
