@@ -15,6 +15,8 @@ func TestIpnets(t *testing.T) {
 	if l := len(*nets); l != 5 {
 		t.Fatal("The length of IPNets should be 5, not ", l)
 	}
+	// make 100% coverage by "testing" String()
+	_ = nets.String()
 	// test individual nets
 	for i, proposed := range []string{"192.168.3.4/32", "172.17.4.0/24", "10.0.0.0/30", "fe81::/64", "fe99::20f:75fa:fe1a:1af2/128"} {
 		if parsed := (*nets)[i].String(); parsed != proposed {
