@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-// IPNet is a slice of net.IPNet
+// IPNets is a slice of net.IPNet
 type IPNets []net.IPNet
 
 // String returns a string with comma-delimited CIDR representations of
